@@ -31,82 +31,42 @@ $(document).ready(function(){
 
 	map.addLayer(viewpoly);
 	
-	
-	polymorph.run(example_data[keys[0]], example_data[keys[1]], 100, 10000, function(pp){
+	var callback = function (pp) {
 		var ll = [];
 		$(pp).each(function(idx,p){
 			ll.push(new L.LatLng(p[1],p[0]));
 		});
 		viewpoly.setLatLngs(ll);
 		viewpoly.redraw();
-	});
+	}
 
-	setTimeout(function(){
-		polymorph.run(example_data[keys[1]], example_data[keys[2]], 100, 10000, function(pp){
-			var ll = [];
-			$(pp).each(function(idx,p){
-				ll.push(new L.LatLng(p[1],p[0]));
-			});
-			viewpoly.setLatLngs(ll);
-			viewpoly.redraw();
-		});
-	},10000)
+	var toDos = [];
 
+	polymorph.run(example_data[keys[0]], example_data[keys[1]], 100, 10000, callback);
 
-	setTimeout(function(){
-		polymorph.run(example_data[keys[2]], example_data[keys[3]], 100, 10000, function(pp){
-			var ll = [];
-			$(pp).each(function(idx,p){
-				ll.push(new L.LatLng(p[1],p[0]));
-			});
-			viewpoly.setLatLngs(ll);
-			viewpoly.redraw();
-		});
-	},20000)
+	setTimeout(function() {
+		polymorph.run(example_data[keys[1]], example_data[keys[2]], 100, 10000, callback);
+	}, 10000)
+
+	setTimeout(function() {
+		polymorph.run(example_data[keys[2]], example_data[keys[3]], 100, 10000, callback);
+	}, 20000)
 	
-	setTimeout(function(){
-		polymorph.run(example_data[keys[2]], example_data[keys[3]], 100, 10000, function(pp){
-			var ll = [];
-			$(pp).each(function(idx,p){
-				ll.push(new L.LatLng(p[1],p[0]));
-			});
-			viewpoly.setLatLngs(ll);
-			viewpoly.redraw();
-		});
-	},30000)
+	setTimeout(function() {
+		polymorph.run(example_data[keys[2]], example_data[keys[3]], 100, 10000, callback);
+	}, 30000)
 	
-	setTimeout(function(){
-		polymorph.run(example_data[keys[3]], example_data[keys[4]], 100, 10000, function(pp){
-			var ll = [];
-			$(pp).each(function(idx,p){
-				ll.push(new L.LatLng(p[1],p[0]));
-			});
-			viewpoly.setLatLngs(ll);
-			viewpoly.redraw();
-		});
-	},40000)
+	setTimeout(function() {
+		polymorph.run(example_data[keys[3]], example_data[keys[4]], 100, 10000, callback);
+	}, 40000)
 	
-	setTimeout(function(){
-		polymorph.run(example_data[keys[4]], example_data[keys[5]], 100, 10000, function(pp){
-			var ll = [];
-			$(pp).each(function(idx,p){
-				ll.push(new L.LatLng(p[1],p[0]));
-			});
-			viewpoly.setLatLngs(ll);
-			viewpoly.redraw();
-		});
-	},50000)
+	setTimeout(function() {
+		polymorph.run(example_data[keys[4]], example_data[keys[5]], 100, 10000, callback);
+	}, 50000)
 	
-	setTimeout(function(){
-		polymorph.run(example_data[keys[5]], example_data[keys[6]], 100, 10000, function(pp){
-			var ll = [];
-			$(pp).each(function(idx,p){
-				ll.push(new L.LatLng(p[1],p[0]));
-			});
-			viewpoly.setLatLngs(ll);
-			viewpoly.redraw();
-		});
-	},60000)
+	setTimeout(function() {
+		polymorph.run(example_data[keys[5]], example_data[keys[6]], 100, 10000, callback);
+	}, 60000)
 
 });
 
