@@ -76,6 +76,25 @@ var polymorph = {
 		var xr = (bk-xk)/(bk-ak);
 		return xr*av+(1-xr)*bv;
 	},
+	rotate: function(p1, p2) {
+		var best1, best2, error = 1e10;
+		for (var i1 = 0; i1 < p1.length; i1++) {
+			for (var i2 = 0; i2 < p2.length; i2++) {
+				var d = distance(p1[i1], p2[i2]);
+				if (d < error) {
+					error = d;
+					best1 = i1;
+					best2 = i2;
+				}
+			}
+			if (error == 0) break;
+		}
+
+		return {
+			p1: p1.slice(best1).concat(p1.slice(0, best1)),
+			p2: p2.slice(best2).concat(p2.slice(0, best2))
+		}
+	},
 	/* double up array elements to average out array lengths */
 	resample: function(p1, p2) {
 
@@ -127,7 +146,11 @@ var polymorph = {
 	steps: function(p1, p2, steps) {
 
 		var animation = [];
-	
+
+		var temp = polymorph.rotate(p1, p2);
+		p1 = temp.p1;
+		p2 = temp.p2;
+		
 		/* check for polygon sizes and resample if nessecary */
 		if (p1.length < p2.length) {
 			p1 = polymorph.resample(p1, p2);
