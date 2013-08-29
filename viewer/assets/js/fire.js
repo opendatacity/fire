@@ -48,7 +48,7 @@ $(document).ready(function(){
 			polymorph.run(
 				example_data[keys[index]],
 				example_data[keys[index+1]],
-				duration/10,
+				duration/50,
 				callback,
 				nextPhase
 			);
