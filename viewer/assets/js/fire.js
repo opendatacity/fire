@@ -77,13 +77,51 @@ var polymorph = {
 		return xr*av+(1-xr)*bv;
 	},
 	/* double up array elements to average out array lengths */
-	resample: function(polygon, steps) {
-		var resample_steps = (polygon.length/(steps-polygon.length));
-		for (var i=((steps-polygon.length)-1); i>=0; i--) {
-			var j = Math.floor(resample_steps*i);
-			polygon.splice(j,0,polygon[j]);
+	resample: function(p1, p2) {
+
+		function resampleRec(p1, p2) {
+			if (p1.length < 1) {
+				p1.length == 0;
+			}
+			if (p1.length == p2.length) return p1;
+			if (p2.length == 0) return [];
+
+			var pivot2Index = Math.floor(p2.length/2);
+			var pivot2 = p2[pivot2Index];
+			var pivot1;
+			var pivot1Index;
+			var pivotError = 1e10;
+			var i0 = Math.max(p1.length-pivot2Index, 0);
+			var i1 = Math.min(pivot2Index, p1.length-1);
+
+			for (var i = i0; i <= i1; i++) {
+				var d = distance(p1[i], pivot2);
+				if (d < pivotError) {
+					pivotError = d;
+					pivot1 = p1[i];
+					pivot1Index = i;
+				}
+			}
+
+			var result;
+			if (pivot1Index == pivot2Index) {
+				result = p1.slice(0, pivot1Index);
+			} else {
+				result = resampleRec(p1.slice(0, pivot1Index+1), p2.slice(0, pivot2Index));
+			}
+
+			result.push(pivot1);
+
+			if (p1.length-pivot1Index == p2.length-pivot2Index) {
+				result = result.concat(p1.slice(pivot1Index+1));
+			} else {
+				result = result.concat(resampleRec(p1.slice(pivot1Index), p2.slice(pivot2Index+1)));
+			}
+
+			return result;
 		}
-		return polygon;
+
+		return resampleRec(p1, p2);
 	},
 	/* calculate morphing steps */
 	steps: function(p1, p2, steps) {
@@ -92,9 +130,9 @@ var polymorph = {
 	
 		/* check for polygon sizes and resample if nessecary */
 		if (p1.length < p2.length) {
-			p1 = polymorph.resample(p1, p2.length);
+			p1 = polymorph.resample(p1, p2);
 		} else if (p1.length > p2.length) {
-			p2 = polymorph.resample(p2, p1.length);
+			p2 = polymorph.resample(p2, p1);
 		}
 		
 		/* return first polygon */
@@ -128,4 +166,10 @@ var polymorph = {
 			if (animation.length === 0) clearInterval(timer);
 		}, interval);
 	}
+}
+
+function distance(point1, point2) {
+	var dx = point1[0] - point2[0];
+	var dy = point1[1] - point2[1];
+	return dx*dx + dy*dy;
 }
