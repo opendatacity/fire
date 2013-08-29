@@ -170,9 +170,11 @@ var polymorph = {
 		return animation;
 	
 	},
+	timePerFrame: 40,
+
 	/* execute polymorphing animation */
 	run: function(p1, p2, duration, callback, finish) {
-		var steps = Math.round(duration/100)-1;
+		var steps = Math.round(duration/this.timePerFrame)-1;
 		var animation = polymorph.steps(p1, p2, steps);
 		var timer = setInterval(function(){
 			callback(animation.shift());
@@ -180,7 +182,7 @@ var polymorph = {
 				clearInterval(timer);
 				finish();
 			}
-		}, 100);
+		}, this.timePerFrame);
 	}
 }
 
