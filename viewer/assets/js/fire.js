@@ -40,33 +40,23 @@ $(document).ready(function(){
 		viewpoly.redraw();
 	}
 
-	var toDos = [];
+	var index = 0;
 
-	polymorph.run(example_data[keys[0]], example_data[keys[1]], 100, 9500, callback);
+	function nextPhase() {
+		if (index <= 6) {
+			var duration = parseInt(keys[1],10) - parseInt(keys[0],10);
+			polymorph.run(
+				example_data[keys[index]],
+				example_data[keys[index+1]],
+				duration/10,
+				callback,
+				nextPhase
+			);
+			index++;
+		}
+	}
 
-	setTimeout(function() {
-		polymorph.run(example_data[keys[1]], example_data[keys[2]], 100, 9500, callback);
-	}, 10000)
-
-	setTimeout(function() {
-		polymorph.run(example_data[keys[2]], example_data[keys[3]], 100, 9500, callback);
-	}, 20000)
-	
-	setTimeout(function() {
-		polymorph.run(example_data[keys[2]], example_data[keys[3]], 100, 9500, callback);
-	}, 30000)
-	
-	setTimeout(function() {
-		polymorph.run(example_data[keys[3]], example_data[keys[4]], 100, 9500, callback);
-	}, 40000)
-	
-	setTimeout(function() {
-		polymorph.run(example_data[keys[4]], example_data[keys[5]], 100, 9500, callback);
-	}, 50000)
-	
-	setTimeout(function() {
-		polymorph.run(example_data[keys[5]], example_data[keys[6]], 100, 9500, callback);
-	}, 60000)
+	nextPhase();
 
 });
 
@@ -181,13 +171,16 @@ var polymorph = {
 	
 	},
 	/* execute polymorphing animation */
-	run: function(p1, p2, steps, duration, callback) {
-		var interval = Math.round(duration/steps);
+	run: function(p1, p2, duration, callback, finish) {
+		var steps = Math.round(duration/100)-1;
 		var animation = polymorph.steps(p1, p2, steps);
 		var timer = setInterval(function(){
 			callback(animation.shift());
-			if (animation.length === 0) clearInterval(timer);
-		}, interval);
+			if (animation.length === 0) {
+				clearInterval(timer);
+				finish();
+			}
+		}, 100);
 	}
 }
 
