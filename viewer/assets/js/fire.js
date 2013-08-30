@@ -165,6 +165,44 @@ $(document).ready(function(){
 	
 	if (window.top === window) start();
 	
+	/* compare */
+	
+	var comparisons = ["berlin","koeln","muenchen","manhattan","london","paris"];
+	var comparisons2 = ["berlin","koeln","muenchen","manhattan","london","paris"];
+	var comparecity = null;
+	var compare = function(city) {
+		/* check if city is valid */
+		if (comparisons.indexOf(city) < 0) return;
+		$.getJSON('assets/data/'+city+'.geo.json', function(data){
+			if (comparecity) map.removeLayer(comparecity);
+			comparecity = L.geoJson(data, {
+				style: function(f){
+					return {
+						stroke: true,
+						color: '#000',
+						opacity: 1,
+						weight: 2,
+						fill: true,
+						fillColor: '#333',
+						fillOpacity: 0.9
+					}
+				}
+			}).addTo(map).on('click', function(e){
+				map.removeLayer(comparecity);
+			});
+			viewpoly.bringToFront()
+		});
+		
+	}
+	
+	var ttt = setInterval(function(){
+		var c = comparisons2.pop();
+		$('title').text(c);
+		compare(c);
+		if (comparisons.length === 0) clearInterval(ttt);
+	},5000);
+
+	
 });
 
 var polymorph = {
