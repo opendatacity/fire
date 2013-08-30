@@ -1,9 +1,16 @@
 $(document).ready(function(){
 	
-	var map = new L.Map('map');
+	var map = new L.Map('map', {
+		minZoom: 6,
+		maxZoom: 12,
+		maxBounds: new L.LatLngBounds(
+			new L.LatLng(28, -130), 
+			new L.LatLng(52, 60)
+		)
+	});
 
-	var tiles = new L.TileLayer('http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg', {
-		attribution: 'hello',
+	var tiles = new L.TileLayer('http://tilt.odcdn.de/terrain/{z}/{x}/{y}.jpg', {
+		attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Map Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>. Fire Data by <a href="http://inciweb.nwcg.gov/">InciWeb</a>',
 		maxZoom: 18
 	});
 	
@@ -31,83 +38,89 @@ $(document).ready(function(){
 
 	map.addLayer(viewpoly);
 	
+	/* set inital time */
+	$('#map-date').text(moment.unix(parseInt(keys[0],10)).format('DD.MM.YYYY HH:mm'));
 	
-	polymorph.run(example_data[keys[0]], example_data[keys[1]], 100, 10000, function(pp){
-		var ll = [];
-		$(pp).each(function(idx,p){
-			ll.push(new L.LatLng(p[1],p[0]));
+	var morph_steps = 100;
+	var morph_duration = 5000;
+	
+	var morph = function(step) {
+		var this_step = 0;
+		polymorph.run(example_data[keys[step]], example_data[keys[(step+1)]], morph_steps, morph_duration, function(end, pp){
+			this_step++;
+			if (!pp || pp.length === 0) {
+				console.log("end");
+				return;
+			}
+			/* update throbber */
+			$('#map-throbber-bar').css('width', Math.round((((step*morph_steps)+this_step)/((keys.length-1)*morph_steps))*1000)/10+'%');
+			
+			/* update date */
+			$('#map-date').text(moment.unix(Math.round(polymorph.linterpol(0, keys[step], morph_steps, keys[(step+1)], this_step))).format('DD.MM.YYYY HH:mm'));
+			
+			var ll = [];
+			$(pp).each(function(idx,p){
+				ll.push(new L.LatLng(p[1],p[0]));
+			});
+			viewpoly.setLatLngs(ll);
+			if (end && ((step+2) < keys.length)) {
+				morph((step+1));
+			} else if (end) {
+				/* reset play button */
+				$('#map-startstop').removeClass('playing');
+				$('#map-startstop i').attr('class', 'icon-play');
+			}
 		});
-		viewpoly.setLatLngs(ll);
-		viewpoly.redraw();
+	}
+	
+	$('#map-startstop').click(function(evt){
+		evt.preventDefault();
+		if (!$('#map-startstop').hasClass('playing')) {
+			$('#map-startstop').addClass('playing');
+			$('#map-startstop i').attr('class', 'icon-stop');
+			morph(0);
+		} else {
+			/* stop */
+		}
+	});
+	
+	/* menu buttons */
+	$('#button-info').click(function(evt){
+		evt.preventDefault();
+		if ($('#main').hasClass('show-info')) {
+			$('#main').removeClass('show-info');
+		} else {
+			$('#main').attr('class', 'show-info');
+		}
 	});
 
-	setTimeout(function(){
-		polymorph.run(example_data[keys[1]], example_data[keys[2]], 100, 10000, function(pp){
-			var ll = [];
-			$(pp).each(function(idx,p){
-				ll.push(new L.LatLng(p[1],p[0]));
-			});
-			viewpoly.setLatLngs(ll);
-			viewpoly.redraw();
-		});
-	},10000)
+	$('#button-social').click(function(evt){
+		evt.preventDefault();
+		if ($('#main').hasClass('show-social')) {
+			$('#main').removeClass('show-social');
+		} else {
+			$('#main').attr('class', 'show-social');
+		}
+	});
 
+	$('#button-share').click(function(evt){
+		evt.preventDefault();
+		if ($('#main').hasClass('show-share')) {
+			$('#main').removeClass('show-share');
+		} else {
+			$('#main').attr('class', 'show-share');
+		}
+	});
 
-	setTimeout(function(){
-		polymorph.run(example_data[keys[2]], example_data[keys[3]], 100, 10000, function(pp){
-			var ll = [];
-			$(pp).each(function(idx,p){
-				ll.push(new L.LatLng(p[1],p[0]));
-			});
-			viewpoly.setLatLngs(ll);
-			viewpoly.redraw();
-		});
-	},20000)
+	$('#button-legal').click(function(evt){
+		evt.preventDefault();
+		if ($('#main').hasClass('show-legal')) {
+			$('#main').removeClass('show-legal');
+		} else {
+			$('#main').attr('class', 'show-legal');
+		}
+	});
 	
-	setTimeout(function(){
-		polymorph.run(example_data[keys[2]], example_data[keys[3]], 100, 10000, function(pp){
-			var ll = [];
-			$(pp).each(function(idx,p){
-				ll.push(new L.LatLng(p[1],p[0]));
-			});
-			viewpoly.setLatLngs(ll);
-			viewpoly.redraw();
-		});
-	},30000)
-	
-	setTimeout(function(){
-		polymorph.run(example_data[keys[3]], example_data[keys[4]], 100, 10000, function(pp){
-			var ll = [];
-			$(pp).each(function(idx,p){
-				ll.push(new L.LatLng(p[1],p[0]));
-			});
-			viewpoly.setLatLngs(ll);
-			viewpoly.redraw();
-		});
-	},40000)
-	
-	setTimeout(function(){
-		polymorph.run(example_data[keys[4]], example_data[keys[5]], 100, 10000, function(pp){
-			var ll = [];
-			$(pp).each(function(idx,p){
-				ll.push(new L.LatLng(p[1],p[0]));
-			});
-			viewpoly.setLatLngs(ll);
-			viewpoly.redraw();
-		});
-	},50000)
-	
-	setTimeout(function(){
-		polymorph.run(example_data[keys[5]], example_data[keys[6]], 100, 10000, function(pp){
-			var ll = [];
-			$(pp).each(function(idx,p){
-				ll.push(new L.LatLng(p[1],p[0]));
-			});
-			viewpoly.setLatLngs(ll);
-			viewpoly.redraw();
-		});
-	},60000)
-
 });
 
 var polymorph = {
@@ -164,8 +177,9 @@ var polymorph = {
 		var interval = Math.round(duration/steps);
 		var animation = polymorph.steps(p1, p2, steps);
 		var timer = setInterval(function(){
-			callback(animation.shift());
+			callback((animation.length === 1), animation.shift());
 			if (animation.length === 0) clearInterval(timer);
 		}, interval);
+		return timer;
 	}
 }
