@@ -14,15 +14,15 @@ $(document).ready(function(){
 		maxZoom: 18
 	});
 	
-	map.setView(new L.LatLng(37.9, -119.9), 11).addLayer(tiles);
+	map.setView(new L.LatLng(37.9, -119.9), 10).addLayer(tiles);
 	
 	var keys = [];
 	var polys = {};
-	for (k in example_data) {
+	for (k in _rimfire) {
 		keys.push(k);
 		polys[k] = [];
-		$(example_data[k]).each(function(idx,ll){
-			polys[k].push(new L.LatLng(ll[1],ll[0]));
+		$(_rimfire[k]["polygons"][0]).each(function(idx,ll){
+			polys[k].push(new L.LatLng(ll[0],ll[1]));
 		});
 	}
 	keys = keys.sort();
@@ -30,58 +30,81 @@ $(document).ready(function(){
 	var viewpoly = new L.Polygon(polys[keys[0]], {
 		stroke: true,
 		color: '#f00',
-		opacity: 0.6,
+		opacity: 0.5,
 		weight: 3,
 		fill: true,
-		fillColor: '#f00'
+		fillColor: '#f00',
+		fillOpacity: 0.4
 	});
 
 	map.addLayer(viewpoly);
 	
 	/* set inital time */
-	$('#map-date').text(moment.unix(parseInt(keys[0],10)).format('DD.MM.YYYY HH:mm'));
+	$('#map-date').text(moment.unix(parseInt(keys[0],10)).format('DD.MM.YYYY HH:mm')+' PST');
+
+	/* set inital size */
+	$('#map-size').text((Math.round(_rimfire[keys[0]].size*100)/100).toString().replace(/\./g,',')+' km²');
 	
-	var morph_steps = 100;
-	var morph_duration = 5000;
+	var morph_steps = 50;
+	var morph_duration = 2500;
 	
 	var morph = function(step) {
 		var this_step = 0;
-		polymorph.run(example_data[keys[step]], example_data[keys[(step+1)]], morph_steps, morph_duration, function(end, pp){
+		polymorph.run(_rimfire[keys[step]]["polygons"][0], _rimfire[keys[(step+1)]]["polygons"][0], morph_steps, morph_duration, function(end, pp){
 			this_step++;
 			if (!pp || pp.length === 0) {
 				console.log("end");
 				return;
 			}
+			
+						
 			/* update throbber */
 			$('#map-throbber-bar').css('width', Math.round((((step*morph_steps)+this_step)/((keys.length-1)*morph_steps))*1000)/10+'%');
 			
+			var t = Math.round(polymorph.linterpol(0, keys[step], morph_steps, keys[(step+1)], this_step));
+			var sz = Math.round(polymorph.linterpol(0, (_rimfire[keys[step]].size*100), morph_steps, (_rimfire[keys[(step+1)]].size*100), this_step));
+			
 			/* update date */
-			$('#map-date').text(moment.unix(Math.round(polymorph.linterpol(0, keys[step], morph_steps, keys[(step+1)], this_step))).format('DD.MM.YYYY HH:mm'));
+			$('#map-date').text(moment.unix(t).format('DD.MM.YYYY HH:mm')+' PST');
+
+			/* update size */
+			var szr = (Math.round(sz)/100).toString();
+			if (szr.match(/\.[0-9]$/)) szr += "0";
+			$('#map-size').text(szr.replace(/\./g,',')+' km²');
+			
+			
+			/* glim effect */
+			var col = (this_step%2===0)?"#f00":"#f10";
+			
+			viewpoly.setStyle({
+				color: col,
+				fillColor: col
+			});
 			
 			var ll = [];
 			$(pp).each(function(idx,p){
-				ll.push(new L.LatLng(p[1],p[0]));
+				ll.push(new L.LatLng(p[0],p[1]));
 			});
 			viewpoly.setLatLngs(ll);
 			if (end && ((step+2) < keys.length)) {
 				morph((step+1));
 			} else if (end) {
 				/* reset play button */
-				$('#map-startstop').removeClass('playing');
-				$('#map-startstop i').attr('class', 'icon-play');
+				$('#map-container').removeClass('playing');
+				$('#map-container').addClass('played');
 			}
 		});
+	}
+		
+	var start = function() {
+		if ($('#map-startstop').hasClass('playing')) return; // prevent double start
+		$('#map-container').addClass('playing');
+		morph(0);
 	}
 	
 	$('#map-startstop').click(function(evt){
 		evt.preventDefault();
-		if (!$('#map-startstop').hasClass('playing')) {
-			$('#map-startstop').addClass('playing');
-			$('#map-startstop i').attr('class', 'icon-stop');
-			morph(0);
-		} else {
-			/* stop */
-		}
+		start();
 	});
 	
 	/* menu buttons */
@@ -120,6 +143,27 @@ $(document).ready(function(){
 			$('#main').attr('class', 'show-legal');
 		}
 	});
+	
+	/* load park boundaries with geojson */
+	$.getJSON('assets/data/yosemite.geo.json', function(data){
+		L.geoJson(data, {
+			style: function(f){
+				return {
+					stroke: true,
+					color: '#260',
+					opacity: 1,
+					weight: 2,
+					dashArray: '10,5',
+					fill: true,
+					fillColor: '#260',
+					fillOpacity: 0.3
+				}
+			}
+		}).addTo(map);
+		viewpoly.bringToFront()
+	});
+	
+	if (window.top === window) start();
 	
 });
 
