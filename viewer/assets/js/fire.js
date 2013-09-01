@@ -40,7 +40,7 @@ $(document).ready(function(){
 		viewpoly.redraw();
 	}
 
-	var index = 0;
+	var index = 1;
 
 	function nextPhase() {
 		if (index <= 6) {
@@ -48,7 +48,7 @@ $(document).ready(function(){
 			polymorph.run(
 				example_data[keys[index]],
 				example_data[keys[index+1]],
-				duration/50,
+				duration/20,
 				callback,
 				nextPhase
 			);
@@ -62,9 +62,8 @@ $(document).ready(function(){
 
 var polymorph = {
 	/* linear interpolation */
-	linterpol: function(ak,av,bk,bv,xk) {
-		var xr = (bk-xk)/(bk-ak);
-		return xr*av+(1-xr)*bv;
+	linterpol: function(p1,p2,a) {
+		return a*p2 + (1-a)*p1;
 	},
 	rotate: function(p1, p2) {
 		var best1, best2, error = 1e10;
@@ -88,77 +87,150 @@ var polymorph = {
 	/* double up array elements to average out array lengths */
 	resample: function(p1, p2) {
 
-		function resampleRec(p1, p2) {
-			if (p1.length < 1) {
-				p1.length == 0;
-			}
-			if (p1.length == p2.length) return p1;
-			if (p2.length == 0) return [];
+		var temp = polymorph.rotate(p1, p2);
+		p1 = temp.p1;
+		p2 = temp.p2;
 
-			var pivot2Index = Math.floor(p2.length/2);
-			var pivot2 = p2[pivot2Index];
-			var pivot1;
-			var pivot1Index;
-			var pivotError = 1e10;
-			var i0 = Math.max(p1.length-pivot2Index, 0);
-			var i1 = Math.min(pivot2Index, p1.length-1);
+		var max1 = p1.length-1;
+		var max2 = p2.length-1;
 
-			for (var i = i0; i <= i1; i++) {
-				var d = distance(p1[i], pivot2);
-				if (d < pivotError) {
-					pivotError = d;
-					pivot1 = p1[i];
-					pivot1Index = i;
+		var a = [];
+		for (var i1 = 0; i1 <= max1; i1++) a[i1] = new Array(p2.length);
+
+		for (var i1 = 0; i1 <= max1; i1++) {
+			for (var i2 = 0; i2 <= max2; i2++) {
+				var minSum;
+				if (i1 == 0) {
+					if (i2 == 0) {
+						minSum = 0;
+					} else {
+						minSum = a[i1][i2-1];
+					}
+				} else {
+					if (i2 == 0) {
+						minSum = a[i1-1][i2];
+					} else {
+						minSum = Math.min(a[i1-1][i2], a[i1-1][i2-1], a[i1][i2-1]);
+					}
 				}
+
+				d = distance(p1[i1], p2[i2]) + 1e-6;
+
+				a[i1][i2] = minSum + d;
 			}
-
-			var result;
-			if (pivot1Index == pivot2Index) {
-				result = p1.slice(0, pivot1Index);
-			} else {
-				result = resampleRec(p1.slice(0, pivot1Index+1), p2.slice(0, pivot2Index));
-			}
-
-			result.push(pivot1);
-
-			if (p1.length-pivot1Index == p2.length-pivot2Index) {
-				result = result.concat(p1.slice(pivot1Index+1));
-			} else {
-				result = result.concat(resampleRec(p1.slice(pivot1Index), p2.slice(pivot2Index+1)));
-			}
-
-			return result;
 		}
 
-		return resampleRec(p1, p2);
+		var newp1 = [], newp2 = [];
+		var i1 = max1, i2 = max2;
+		var temp = [];
+		while ((i1 > 0) || (i2 > 0)) {
+			newp1.push(p1[i1]);
+			newp2.push(p2[i2]);
+			temp.push([i1, i2]);
+
+			if (i1 == 0) {
+				if (i2 == 0) {
+					minSum = 0; // shouldn't happend
+				} else {
+					i2--;
+				}
+			} else {
+				if (i2 == 0) {
+					i1--;
+				} else {
+					var new1 = i1, new2 = i2, minSum = a[i1][i2];
+					if (minSum > a[i1-1][i2-1]) {
+						minSum = a[i1-1][i2-1];
+						new1 = i1-1;
+						new2 = i2-1;
+					}
+					if (minSum > a[i1-1][i2]) {
+						minSum = a[i1-1][i2];
+						new1 = i1-1;
+						new2 = i2;
+					}
+					if (minSum > a[i1][i2-1]) {
+						minSum = a[i1][i2-1];
+						new1 = i1;
+						new2 = i2-1;
+					}
+					i1 = new1;
+					i2 = new2;
+				}
+			}
+		}
+		newp1.push(p1[0]);
+		newp2.push(p2[0]);
+		temp.push([0, 0]);
+
+		//console.log(temp);
+
+
+
+		//console.log(a);
+/*
+		var queue = new Queue(function (obj) {
+			if ((obj.i1 > max1) || (obj.i2 > max2)) return false;
+			var d = distance(p1[obj.i1], p2[obj.i2]);
+			obj.d = d;
+			if (obj.parent) {
+				d += obj.parent.sum;
+			}
+			obj.sum = d;
+			obj.id = obj.i1+'_'+obj.i2;
+			return true;
+		});
+
+		queue.add({i1:0, i2:0, parent:false});
+
+		var found = false;
+		do {
+			var element = queue.pop();
+			if ((element.i1 == max1) && (element.i2 == max2)) {
+				found = element;
+			} else {
+				queue.add({i1:element.i1+1, i2:element.i2  , parent:element});
+				queue.add({i1:element.i1+1, i2:element.i2+1, parent:element});
+				queue.add({i1:element.i1  , i2:element.i2+1, parent:element});
+			}
+
+		} while (!found);
+
+		var newp1 = [], newp2 = [];
+		var temp = [];
+		while (found) {
+			newp1.push(p1[found.i1]);
+			newp2.push(p2[found.i2]);
+			temp.push([found.i1, found.i2]);
+			found = found.parent;
+		}
+		console.log(temp);
+*/
+
+		return {p1:newp1, p2:newp2};
 	},
 	/* calculate morphing steps */
 	steps: function(p1, p2, steps) {
 
 		var animation = [];
-
-		var temp = polymorph.rotate(p1, p2);
-		p1 = temp.p1;
-		p2 = temp.p2;
 		
 		/* check for polygon sizes and resample if nessecary */
-		if (p1.length < p2.length) {
-			p1 = polymorph.resample(p1, p2);
-		} else if (p1.length > p2.length) {
-			p2 = polymorph.resample(p2, p1);
-		}
+		var temp = polymorph.resample(p1, p2);
+		p1 = temp.p1;
+		p2 = temp.p2;
 		
 		/* return first polygon */
 		animation.push(p1);
 
 		/* calculate interpolated polygons */
 		var pi = [];
-		for (var i=2; i < steps; i++) {
+		for (var i = 1; i < steps; i++) {
+			var a = i/steps;
 			pi = [];
 			for (var j=0; j < p1.length; j++) {
 				pi.push([
-					polymorph.linterpol(1, p1[j][0], steps, p2[j][0], i),
-					polymorph.linterpol(1, p1[j][1], steps, p2[j][1], i)
+					polymorph.linterpol(p1[j][0], p2[j][0], a),
+					polymorph.linterpol(p1[j][1], p2[j][1], a)
 				]);
 			} 
 			animation.push(pi);
@@ -190,4 +262,40 @@ function distance(point1, point2) {
 	var dx = point1[0] - point2[0];
 	var dy = point1[1] - point2[1];
 	return dx*dx + dy*dy;
+}
+
+var Queue = function (checker) {
+	var me = this;
+	var queue = [];
+	var list = {};
+
+	me.add = function (obj) {
+		if (checker(obj)) {
+			var id = obj.id;
+			if (list[id]) {
+				var dup = list[id];
+				if (dup.sum > obj.sum) {
+					// neues Element ist besser
+					for (var key in obj) dup[key] = obj[key];
+				}
+			} else {
+				queue.push(obj);
+				list[id] = obj;
+			}
+		}
+	}
+
+	var n = 0;
+	me.pop = function () {
+		queue = queue.sort(function (a,b) {
+			return b.sum - a.sum;
+		});
+		n++;
+		if (n % 1000 == 0) {
+			console.log(n, queue.length);
+		}
+		return queue.pop();
+	}
+
+	return me;
 }
