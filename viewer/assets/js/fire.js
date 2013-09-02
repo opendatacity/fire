@@ -47,19 +47,34 @@ $(document).ready(function(){
 	
 	var morph_steps = 50;
 	var morph_duration = 2500;
+
+	/* precalculate total number of steps */
+	var total_steps = 0;
+	for (var i = 1; i < keys.length; i++) {
+		total_steps += Math.round(Math.round((keys[i] - keys[(i-1)]) / 30)/50)
+	}
+	var done_steps = 0;
 	
-	var morph = function(step) {
+	var morph = function(step, done_steps) {
+
 		var this_step = 0;
-		polymorph.run(_rimfire[keys[step]]["polygons"][0], _rimfire[keys[(step+1)]]["polygons"][0], morph_steps, morph_duration, function(end, pp){
+		
+		morph_duration = Math.round((keys[(step+1)] - keys[step]) / 30)
+		morph_steps = Math.round(morph_duration/50);
+
+		// console.log("duration", morph_duration, morph_steps);
+		
+		polymorph.run(_rimfire[keys[step]]["polygons"][0], _rimfire[keys[(step+1)]]["polygons"][0], morph_steps, morph_duration, function(end, pp, time){
 			this_step++;
+			done_steps++;
 			if (!pp || pp.length === 0) {
 				console.log("end");
 				return;
 			}
-			
-						
+
 			/* update throbber */
-			$('#map-throbber-bar').css('width', Math.round((((step*morph_steps)+this_step)/((keys.length-1)*morph_steps))*1000)/10+'%');
+//			$('#map-throbber-bar').css('width', Math.round((((step*morph_steps)+this_step)/((keys.length-1)*morph_steps))*1000)/10+'%');
+			$('#map-throbber-bar').css('width', (Math.round((done_steps / total_steps)*10000)/100)+'%');
 			
 			var t = Math.round(polymorph.linterpol(0, keys[step], morph_steps, keys[(step+1)], this_step));
 			var sz = Math.round(polymorph.linterpol(0, (_rimfire[keys[step]].size*100), morph_steps, (_rimfire[keys[(step+1)]].size*100), this_step));
@@ -87,11 +102,12 @@ $(document).ready(function(){
 			});
 			viewpoly.setLatLngs(ll);
 			if (end && ((step+2) < keys.length)) {
-				morph((step+1));
+				morph((step+1), done_steps);
 			} else if (end) {
 				/* reset play button */
 				$('#map-container').removeClass('playing');
 				$('#map-container').addClass('played');
+				done_steps = 0;
 			}
 		});
 	}
@@ -99,7 +115,7 @@ $(document).ready(function(){
 	var start = function() {
 		if ($('#map-startstop').hasClass('playing')) return; // prevent double start
 		$('#map-container').addClass('playing');
-		morph(0);
+		morph(0, 0);
 	}
 	
 	$('#map-startstop').click(function(evt){
@@ -125,7 +141,7 @@ $(document).ready(function(){
 			$('#main').attr('class', 'show-share');
 		}
 	});
-
+	
 	/* load park boundaries with geojson */
 	$.getJSON('assets/data/yosemite.geo.json', function(data){
 		L.geoJson(data, {
@@ -148,7 +164,7 @@ $(document).ready(function(){
 	if (window.top === window) start();
 	
 	/* compare */
-	
+
 	var comparisons = ["berlin","koeln","muenchen","manhattan","london","paris","hamburg"];
 	var comparecity_current = null;
 	var comparecity = null;
@@ -162,25 +178,25 @@ $(document).ready(function(){
 			comparecity_current = null;
 		} else {
 			comparecity_current = city
-		$.getJSON('assets/data/'+city+'.geo.json', function(data){
-			if (comparecity) map.removeLayer(comparecity);
-			comparecity = L.geoJson(data, {
-				style: function(f){
-					return {
-						stroke: true,
-						color: '#000',
-						opacity: 1,
-						weight: 2,
-						fill: true,
-						fillColor: '#333',
-						fillOpacity: 0.9
+			$.getJSON('assets/data/'+city+'.geo.json', function(data){
+				if (comparecity) map.removeLayer(comparecity);
+				comparecity = L.geoJson(data, {
+					style: function(f){
+						return {
+							stroke: true,
+							color: '#000',
+							opacity: 1,
+							weight: 2,
+							fill: true,
+							fillColor: '#333',
+							fillOpacity: 0.9
+						}
 					}
-				}
-			}).addTo(map).on('click', function(e){
-				map.removeLayer(comparecity);
+				}).addTo(map).on('click', function(e){
+					map.removeLayer(comparecity);
 				}).bringToFront();
-			viewpoly.bringToFront()
-		});
+				viewpoly.bringToFront()
+			});
 		}
 	}
 	
@@ -196,13 +212,13 @@ $(document).ready(function(){
 			/* highlight button */
 			$('a','#map-compare').removeClass('highlight');
 			$b.addClass('highlight');
-	}
-	
+		}
+		
 		/* compare city */
 		compare_city(city);
 		
 	});
-
+	
 	/* share */
 	$('.share-pop').click(function(evt){
 		evt.preventDefault();
