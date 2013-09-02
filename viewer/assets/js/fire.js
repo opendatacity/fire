@@ -117,15 +117,6 @@ $(document).ready(function(){
 		}
 	});
 
-	$('#button-social').click(function(evt){
-		evt.preventDefault();
-		if ($('#main').hasClass('show-social')) {
-			$('#main').removeClass('show-social');
-		} else {
-			$('#main').attr('class', 'show-social');
-		}
-	});
-
 	$('#button-share').click(function(evt){
 		evt.preventDefault();
 		if ($('#main').hasClass('show-share')) {
@@ -135,15 +126,6 @@ $(document).ready(function(){
 		}
 	});
 
-	$('#button-legal').click(function(evt){
-		evt.preventDefault();
-		if ($('#main').hasClass('show-legal')) {
-			$('#main').removeClass('show-legal');
-		} else {
-			$('#main').attr('class', 'show-legal');
-		}
-	});
-	
 	/* load park boundaries with geojson */
 	$.getJSON('assets/data/yosemite.geo.json', function(data){
 		L.geoJson(data, {
@@ -167,12 +149,19 @@ $(document).ready(function(){
 	
 	/* compare */
 	
-	var comparisons = ["berlin","koeln","muenchen","manhattan","london","paris"];
-	var comparisons2 = ["berlin","koeln","muenchen","manhattan","london","paris"];
+	var comparisons = ["berlin","koeln","muenchen","manhattan","london","paris","hamburg"];
+	var comparecity_current = null;
 	var comparecity = null;
-	var compare = function(city) {
+
+	var compare_city = function(city) {
 		/* check if city is valid */
 		if (comparisons.indexOf(city) < 0) return;
+		if (comparecity_current === city) {
+			/* remove */
+			map.removeLayer(comparecity);
+			comparecity_current = null;
+		} else {
+			comparecity_current = city
 		$.getJSON('assets/data/'+city+'.geo.json', function(data){
 			if (comparecity) map.removeLayer(comparecity);
 			comparecity = L.geoJson(data, {
@@ -189,19 +178,37 @@ $(document).ready(function(){
 				}
 			}).addTo(map).on('click', function(e){
 				map.removeLayer(comparecity);
-			});
+				}).bringToFront();
 			viewpoly.bringToFront()
 		});
-		
+		}
 	}
 	
-	var ttt = setInterval(function(){
-		var c = comparisons2.pop();
-		$('title').text(c);
-		compare(c);
-		if (comparisons.length === 0) clearInterval(ttt);
-	},5000);
+	$('a', '#map-compare').click(function(evt){
+		evt.preventDefault();
+		var $b = $(this);
+		var city = $b.attr('data-city');
+		
+		if (city === comparecity_current) {
+			/* dishighlight button */
+			$b.removeClass('highlight');
+		} else {
+			/* highlight button */
+			$('a','#map-compare').removeClass('highlight');
+			$b.addClass('highlight');
+	}
+	
+		/* compare city */
+		compare_city(city);
+		
+	});
 
+	/* share */
+	$('.share-pop').click(function(evt){
+		evt.preventDefault();
+		window.open($(this).attr('href'), "share", "width=500,height=300,status=no,scrollbars=no,resizable=no,menubar=no,toolbar=no");
+		return false;
+	});
 	
 });
 
