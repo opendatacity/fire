@@ -162,6 +162,7 @@ $(document).ready(function(){
 	});
 	
 	if (window.top === window) start();
+	if (window.top !== window) $('html').addClass('in-frame');
 	
 	/* compare */
 

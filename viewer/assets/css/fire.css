@@ -683,3 +683,7 @@ a {
 		}
 	
 }
+
+.in-frame #sponsor {
+	display: none !important;
+}
