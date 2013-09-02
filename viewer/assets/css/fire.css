@@ -377,6 +377,33 @@ header {
 
 					}
 	
+	#sponsor {
+		
+		display: block;
+		position: absolute;
+		right: 100px;
+		top: 10px;
+		margin: 0px;
+		z-index: 1500;
+		
+	}
+	
+		#sponsor a {
+			
+			display: block;
+			position: relative;
+			width: 181px;
+			height: 60px;
+			background: url(../img/sponsor-wetter-com.png) top left no-repeat;
+			
+		}
+
+			#sponsor a span {
+			
+				display: none;
+			
+			}
+	
 	#map-controls {
 		
 		display: block;
@@ -631,6 +658,28 @@ a {
 			line-height: 30px;
 			font-size: 20px;
 
+		}
+		
+	/* sponsor */
+	
+	#sponsor {
+		
+		display: block;
+		position: absolute;
+		right: 50px;
+		top: auto;
+		bottom: 80px;
+		margin: 0px;
+		z-index: 1500;
+		
+	}
+	
+		#sponsor a {
+			
+			width: 90px;
+			height: 30px;
+			background-size: 100%;
+			
 		}
 	
 }
