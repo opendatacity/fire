@@ -203,9 +203,15 @@ var rim = {
 	reduce: function(callback){
 	
 		var _lastsize = 0;
+		var _lasttime = 0;
+		var _num = 0;
 	
 		/* shrink everything */
 		data.dates.forEach(function(t){
+			
+			// console.log("time:", ((t-_lasttime)/3600), "h");
+			
+			_num++;
 			
 			var _r = {
 				"center": data["data"][t]["center"],
@@ -232,9 +238,10 @@ var rim = {
 			/* straighten out minor errors */
 			_thissize = Math.round(_thissize*100000);
 
-			if (_thissize !== _lastsize) {
+			if (_thissize !== _lastsize && ((((t-_lasttime)/3600) > 4) || (_num === data.dates.length))) {
 				_reduced[t] = _r;
 				_lastsize = _thissize;
+				_lasttime = t;
 			}
 			
 		});
