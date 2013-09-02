@@ -38,11 +38,9 @@
 			<h1>Yosemite Rimfire</h1>
 		</header>
 		<nav id="nav">
-			<ul>
+			<ul class="icons">
 				<li><a id="button-info" href="javascript:;" title="Information"><i class="icon-info"></i> <span>Information</span></a></li>
-				<li><a id="button-social" href="javascript:;" title="Teilen"><i class="icon-heart"></i> <span>Teilen</span></a></li>
 				<li><a id="button-share" href="javascript:;" title="Einbetten"><i class="icon-share"></i> <span>Einbetten</span></a></li>
-				<li><a id="button-legal" href="javascript:;" title="Impressum"><i class="icon-legal"></i> <span>Impressum</span></a></li>
 			</ul>
 		</nav>
 		<div id="main" role="main">
@@ -54,29 +52,30 @@
 					<div id="map-date"></div>
 				</div>
 				<a id="map-startstop" href="javascript:;"><i class="icon-play"></i></a>
+				<div id="map-share" class="share-buttons">
+					<ul class="clearfix">
+						<li><a class="share-pop twitter" href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fapps.opendatacity.de%2Ffire%2F&amp;text=Wie%20groß%20ist%20das%20Feuer%20im%20Yosemite%20Nationalpark%3F%20Ansehen%21%20%23yosemite%20%23rimfire"><i class="icon-twitter"></i><span> Twitter</span></a>
+						<li><a class="share-pop facebook" href="http://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fapps.opendatacity.de%2Ffire%2F&amp;t=Wie%20groß%20ist%20das%20Feuer%20im%20Yosemite%20Nationalpark%3F%20Ansehen%21%20%23yosemite%20%23rimfire"><i class="icon-facebook"></i><span> Facebook</span></a>
+						<li><a class="share-pop google" href="https://plus.google.com/share?url=http%3A%2F%2Fapps.opendatacity.de%2Ffire%2F"><i class="icon-google-plus"></i><span> Google+</span></a>
+						<li><a class="share-pop adn" href="https://alpha.app.net/intent/post?text=Wie%20groß%20ist%20das%20Feuer%20im%20Yosemite%20Nationalpark%3F%20Ansehen%21%20http%3A%2F%2Fapps.opendatacity.de%2Ffire%2F%20%23yosemite%20%23rimfire"><i class="icon-adn"></i><span> App.net</span></a>
+					</ul>
+				</div>
+				<div id="map-compare">
+					<h2>Größenvergleich</h2>
+					<ul>
+						<li><a href="javascript:;" data-city="manhattan">Manhattan</a></li>
+						<li><a href="javascript:;" data-city="london">London</a></li>
+						<li><a href="javascript:;" data-city="paris">Paris</a></li>
+						<li><a href="javascript:;" data-city="berlin">Berlin</a></li>
+						<!--
+						<li><a href="javascript:;" data-city="hamburg">Hamburg</a></li>
+						<li><a href="javascript:;" data-city="muenchen">München</a></li>
+						<li><a href="javascript:;" data-city="koeln">Köln</a></li>
+						-->
+					</ul>
+				</div>
 			</div>
 			<div id="info" class="overlay">
-				<h2>Information</h2>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				</p>
-			</div>
-			<div id="social" class="share-buttons">
-				<h2>Teilen</h2>
-				<ul class="clearfix">
-					<li><a class="share-pop twitter" href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fapps.opendatacity.de%2Ffire%2F&amp;text=Wie%20groß%20ist%20das%20Feuer%20im%20Yosemite%20Nationalpark%3F%20Ansehen%21%20%23yosemite%20%23rimfire"><i class="icon-twitter"></i><span> Twitter</span></a>
-					<li><a class="share-pop facebook" href="http://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fapps.opendatacity.de%2Ffire%2F&amp;t=Wie%20groß%20ist%20das%20Feuer%20im%20Yosemite%20Nationalpark%3F%20Ansehen%21%20%23yosemite%20%23rimfire"><i class="icon-facebook"></i><span> Facebook</span></a>
-					<li><a class="share-pop google" href="https://plus.google.com/share?url=http%3A%2F%2Fapps.opendatacity.de%2Ffire%2F"><i class="icon-google-plus"></i><span> Google+</span></a>
-					<li><a class="share-pop adn" href="https://alpha.app.net/intent/post?text=Wie%20groß%20ist%20das%20Feuer%20im%20Yosemite%20Nationalpark%3F%20Ansehen%21%20http%3A%2F%2Fapps.opendatacity.de%2Ffire%2F%20%23yosemite%20%23rimfire"><i class="icon-adn"></i><span> App.net</span></a>
-				</ul>
-			</div>
-			<div id="share" class="overlay">
-				<h2>Einbetten</h2>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				</p>
-			</div>
-			<div id="legal" class="overlay">
 				<h2>Impressum</h2>
 				<p>
 					Diese Datenvisualisierung wurde erstellt von
@@ -93,6 +92,14 @@
 					Die Kartendaten stammen von <a href="http://openstreetmap.org/">OpenStreetMap</a> und unter den Bedingungen der <a href="http://creativecommons.org/licenses/by-sa/3.0">Creative Commons Attribution-ShareAlike 3.0</a> Lizenz veröffentlicht<br />
 					Die Daten zu den Waldbränden stammen von <a href="http://inciweb.nwcg.gov/">InciWeb</a> und sind gemeinfrei.
 				</p>
+			</div>
+			<div id="share" class="overlay">
+				<h2>Einbetten</h2>
+				<p>
+					Diese Webseite darf gerne in Blogs und anderen Medien eingebettet werden. 
+				</p>
+				<code>&lt;iframe src=&quot;http://apps.opendatacity.de/fire&quot; width=&quot;540&quot; height=&quot;420&quot; scrolling=&quot;auto&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;&lt;br /&gt;Ein Informationsangebot von &lt;a href=&quot;http://www.opendatacity.de/&quot;&gt;OpenDataCity&lt;/a&gt;</code>
+				<a href="javascript:;" id="drossl-embed-close" class="btn btn-primary">Schließen</a>
 			</div>
 		</div>
 	</body>

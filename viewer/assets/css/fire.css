@@ -35,10 +35,10 @@ header {
 	min-height: 50px;
 	background-color: rgba(0,0,0,0.75);
 	border-radius: 10px;
-	z-index: 1050;
+	z-index: 2000;
 }
 
-	#nav ul {
+	#nav ul.icons {
 		
 		display: block;
 		position: relative;
@@ -49,15 +49,15 @@ header {
 		
 	}
 	
-		#nav ul li {}
+		#nav ul.icons > li {}
 
-			#nav ul li+li {
+			#nav ul.icons > li+li {
 				
 				margin-top: 5px;
 				
 			}
 
-			#nav ul li a {
+			#nav ul.icons > li > a {
 				
 				display: block;
 				position: relative;
@@ -72,17 +72,23 @@ header {
 				
 			}
 			
-				#nav ul li a:hover,
-				#nav ul li a:active,
-				#nav ul li a:focus {
+				#nav ul.icons > li > a:hover {
 					
 					color: #fff;
 					text-decoration: none;
 					background-color: #f30;
+
+				}
+				
+				#nav ul.icons > li > a:focus,
+				#nav ul.icons > li > a:active {
+					
+					color: #fff;
+					text-decoration: none;
 					
 				}
 
-				#nav ul li a span {
+				#nav ul.icons > li > a > span {
 					
 					display: none;
 					
@@ -166,7 +172,210 @@ header {
 			display: none;
 
 		}
+		
+	#map-compare {
 
+		display: block;
+		position: absolute;
+		right: 90px;
+		bottom: 100px;
+		margin: 0px;
+		background-color: rgba(0,0,0,0.75);
+		border-radius: 10px;
+		z-index: 1000;
+		padding: 5px;
+
+	}
+
+		#map-compare h2 {
+		
+			display: block;
+			position: relative;
+			float: left;
+			margin: 0px;
+			padding: 0px 5px;
+			height: 30px;
+			line-height: 30px;
+			font-size: 16px;
+			color: #fff;
+		
+		}
+	
+		#map-compare ul {
+			
+			display: block;
+			position: relative;
+			margin: 0px;
+			padding: 0px;
+			list-style: none;
+			float: left;
+			
+		}
+
+			#map-compare ul li {
+			
+				display: block;
+				position: relative;
+				margin: 0px;
+				padding: 0px;
+				list-style: none;
+				margin-left: 5px;
+				float: left;
+			
+			}
+			
+				#map-compare ul li a {
+
+					display: block;
+					position: relative;
+					height: 30px;
+					line-height: 30px;
+					text-align: center;
+					font-size: 16px;
+					color: #fff;
+					padding: 0px 5px;
+					border-radius: 7px;
+					background-color: rgba(0,0,0,0.4);
+					border-radius: 7px;
+					text-decoration: none;
+					
+				}
+
+					#map-compare ul li a.highlight,
+					#map-compare ul li a.highlight:hover {
+					
+						text-decoration: none;
+						background-color: #f33;
+					
+					}
+				
+					#map-compare ul li a:hover {
+						
+						text-decoration: none;
+						background-color: rgba(64,64,64,0.4);
+						
+					}
+					
+					#map-compare ul li a:active,
+					#map-compare ul li a:focus {
+					
+						text-decoration: none;
+
+					}
+
+	#map-share {
+		
+		display: block;
+		position: absolute;
+		right: 20px;
+		bottom: 100px;
+		margin: 0px;
+		font-size: 35px;
+		background-color: rgba(0,0,0,0.75);
+		border-radius: 10px;
+		z-index: 1000;
+		padding: 5px;
+		
+	}
+		
+		.share-buttons ul {
+			
+			display: block;
+			position: relative;
+			list-style: none;
+			margin: 0px;
+			padding: 0px;
+			
+		}
+		
+			.share-buttons ul li {
+				
+				display: block;
+				position: relative;
+				
+			}
+			
+				.share-buttons ul li+li {
+					
+					margin-top: 5px;
+					
+				}
+
+				.share-buttons ul li a {
+
+					display: block;
+					position: relative;
+					width: 40px;
+					height: 40px;
+					line-height: 40px;
+					text-align: center;
+					font-size: 30px;
+					color: #fff;
+					border-radius: 7px;
+
+				}
+				
+					.share-buttons ul li a span {
+					
+						display: none;
+					
+					}
+					
+					.share-buttons ul li a:hover,
+					.share-buttons ul li a:focus,
+					.share-buttons ul li a:active {
+					
+						text-decoration: none;
+					
+					}
+					
+					.share-buttons ul li a.twitter {
+
+						background-color: #00aced;
+
+					}
+
+					.share-buttons ul li a.twitter:hover {
+
+						background-color: #4bc5f2;
+
+					}
+
+					.share-buttons ul li a.facebook {
+
+						background-color: #3B5998;
+
+					}
+
+					.share-buttons ul li a.facebook:hover {
+
+						background-color: #5a73a8;
+
+					}
+
+					.share-buttons ul li a.google {
+
+						background-color: #dd4b39;
+
+					}
+
+					.share-buttons ul li a.google:hover {
+
+						background-color: #e26758;
+
+					}
+
+					.share-buttons ul li a.adn {
+
+						background-color: #444;
+
+					}
+
+					.share-buttons ul li a.adn:hover {
+
+						background-color: #555;
+
+					}
 	
 	#map-controls {
 		
@@ -256,136 +465,172 @@ header {
 		top: 0px;
 		bottom: 0px;
 		background-color: #fff;
-		z-index: 1000;
+		z-index: 1500;
 		padding: 10%;
 		
 	}
-	
-	.share-buttons {
-		
-		display: none;
-		position: relative;
-		margin: 20% auto 0px;
-		width: 265px;
-		background-color: rgba(0,0,0,0.75);
-		border-radius: 10px;
-		z-index: 1000;
-		padding: 5px;
-		
-	}
-		.share-buttons h2 {
-			
-			display: block;
-			position: relative;
-			color: #fff;
-			margin: 0px;
-			padding: 10px 5px;
-			
-		}
-		
-		.share-buttons ul {
-			
-			display: block;
-			position: relative;
-			list-style: none;
-			margin: 0px;
-			padding: 0px;
-			
-		}
-		
-			.share-buttons ul li {
-				
-				display: block;
-				position: relative;
-				float: left;
-				
-			}
-			
-				.share-buttons ul li+li {
-					
-					margin-left: 5px;
-					
-				}
-
-				.share-buttons ul li a {
-
-					display: block;
-					position: relative;
-					width: 60px;
-					height: 60px;
-					line-height: 60px;
-					text-align: center;
-					font-size: 40px;
-					color: #fff;
-					border-radius: 7px;
-
-				}
-				
-					.share-buttons ul li a span {
-					
-						display: none;
-					
-					}
-					
-					.share-buttons ul li a:hover {
-					
-						text-decoration: none;
-					
-					}
-					
-					.share-buttons ul li a.twitter {
-
-						background-color: #00aced;
-
-					}
-
-					.share-buttons ul li a.twitter:hover {
-
-						background-color: #4bc5f2;
-
-					}
-
-					.share-buttons ul li a.facebook {
-
-						background-color: #3B5998;
-
-					}
-
-					.share-buttons ul li a.facebook:hover {
-
-						background-color: #5a73a8;
-
-					}
-
-					.share-buttons ul li a.google {
-
-						background-color: #dd4b39;
-
-					}
-
-					.share-buttons ul li a.google:hover {
-
-						background-color: #e26758;
-
-					}
-
-					.share-buttons ul li a.adn {
-
-						background-color: #444;
-
-					}
-
-					.share-buttons ul li a.adn:hover {
-
-						background-color: #555;
-
-					}
 				
 		.show-info #info { display: block; }
-		.show-social #social { display: block; }
 		.show-share #share { display: block; }
-		.show-legal #legal { display: block; }
+
+		.overlay code {
+			
+			display: block;
+			color: #333333;
+			margin-bottom: 10px;
+			padding: 10px;
+			white-space: normal;
+			
+		}
 		
 a {
 	outline: 0 !important;
 }	
+
+/* responsive */
+
+@media screen and (max-width: 720px) { 
+
+	/* headline */
+	
+	header {
+	
+		right: 60px;
+		height: 30px;
+		
+	}
+	
+	header h1 {
+		
+		text-align: center;
+		line-height: 30px;
+		font-size: 25px;
+		
+	}
+
+	/* controls */
+
+	#map-controls {
+		
+		display: block;
+		position: absolute;
+		left: 0px;
+		bottom: 0px;
+		right: 0px;
+		height: 40px;
+		margin: 0px;
+		border-radius: 0px;
+		
+	}
+	
+		#map-controls #map-date {
+
+			width: 140px;
+			line-height: 30px;
+			font-size: 12px;
+
+		}
+	
+		#map-controls #map-size {
+
+			width: 90px;
+			line-height: 30px;
+			font-size: 12px;
+
+		}
+	
+		#map-controls #map-throbber {
+
+			right: 150px;
+			left: 100px;
+			line-height: 30px;
+			font-size: 12px;
+
+		}
+	
+			#map-controls #map-throbber #map-throbber-bar {
+		
+				height: 20px;
+				line-height: 20px;
+		
+			}
+
+	/* compare */
+
+	#map-compare {
+
+		display: block;
+		position: absolute;
+		right: 0px;
+		bottom: 40px;
+		left: 0px;
+		border-radius: 0px;
+
+	}
+
+		#map-compare h2 {
+
+			height: 20px;
+			line-height: 20px;
+			font-size: 12px;
+
+		}
+
+				#map-compare ul li a {
+
+					height: 20px;
+					line-height: 20px;
+					font-size: 12px;
+
+				}
+
+	/* nav */
+	
+	#nav {
+
+		right: 0px;
+		top: 0px;
+		width: 40px;
+		min-height: 40px;
+		border-radius: 0px 0px 0px 10px;
+
+	}
+
+		#nav ul.icons {
+
+			width: 30px;
+
+		}
+
+			#nav ul.icons > li > a {
+
+				width: 30px;
+				height: 30px;
+				line-height: 30px;
+				border-radius: 7px;
+				font-size: 20px;
+
+			}
+
+	/* share */
+	
+	#map-share {
+		
+		right: 0px;
+		top: 100px;
+		bottom: auto;
+		width: 40px;
+		border-radius: 10px 0px 0px 10px;
+		
+	}
+		
+		.share-buttons ul li a {
+
+			width: 30px;
+			height: 30px;
+			line-height: 30px;
+			font-size: 20px;
+
+		}
+	
+}
