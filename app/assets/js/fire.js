@@ -9,7 +9,7 @@ $(document).ready(function(){
 		break;
 		case 'en': 
 			var date_format = 'MM/DD/YYYY HH:mm';
-			var to_size = function(size) { return Math.round(size * 247.105381).toFixed(2).replace(/\./g,',')+' ac.' };
+			var to_size = function(size) { return Math.round(size * 247.105381).toFixed(0).replace(/\./g,',')+' ac.' };
 		break;
 	}
 	
