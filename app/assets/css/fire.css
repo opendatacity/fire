@@ -177,7 +177,7 @@ header {
 
 		display: block;
 		position: absolute;
-		right: 90px;
+		right: 20px;
 		bottom: 100px;
 		margin: 0px;
 		background-color: rgba(0,0,0,0.75);
@@ -268,7 +268,7 @@ header {
 		display: block;
 		position: absolute;
 		right: 20px;
-		bottom: 100px;
+		top: 170px;
 		margin: 0px;
 		font-size: 35px;
 		background-color: rgba(0,0,0,0.75);
@@ -644,7 +644,7 @@ a {
 	#map-share {
 		
 		right: 0px;
-		top: 100px;
+		top: 120px;
 		bottom: auto;
 		width: 40px;
 		border-radius: 10px 0px 0px 10px;
@@ -682,6 +682,27 @@ a {
 			
 		}
 	
+}
+
+@media screen and (min-width: 721px) and (max-height: 500px) { 
+
+	#map-compare {
+
+		right: 90px;
+		
+	}
+
+}
+
+@media screen and (max-height: 350px) { 
+
+	#map-compare,
+	#map-controls {
+
+		right: 40px;
+		
+	}
+
 }
 
 .in-frame #sponsor {
