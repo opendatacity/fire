@@ -42,10 +42,10 @@ $(document).ready(function(){
 	var histpolyList = [];
 
 	/* set inital time */
-	$('#map-date').text(moment.unix(parseInt(keys[0],10)).format('DD.MM.YYYY HH:mm')+' PST');
+	$('#map-date').text(moment.unix(parseFloat(keys[0])).format('DD.MM.YYYY HH:mm')+' PST');
 
 	/* set inital size */
-	$('#map-size').text((Math.round(_rimfire[keys[0]].size*100)/100).toString().replace(/\./g,',')+' km²');
+	$('#map-size').text(_rimfire[keys[0]].size.toFixed(2).replace(/\./g,',')+' km²');
 	
 	var morph_steps = 50;
 	var morph_duration = 2500;
