@@ -58,7 +58,7 @@ $(document).ready(function(){
 	$('#map-date').text(moment.unix(parseFloat(keys[0])).format(date_format)+' PST');
 
 	/* set inital size */
-	$('#map-size').text(to_size(_rimfire[keys[0]].size));
+	$('#map-size').text(to_size(parseFloat(_rimfire[keys[0]].size)));
 	
 	var morph_steps = 50;
 	var morph_duration = 2500;
@@ -113,7 +113,7 @@ $(document).ready(function(){
 			/* update size */
 			var szr = (Math.round(sz)/100).toString();
 			if (szr.match(/\.[0-9]$/)) szr += "0";
-			$('#map-size').text(to_size(szr));
+			$('#map-size').text(to_size(parseFloat(szr)));
 			
 			
 			/* glim effect */
