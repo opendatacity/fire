@@ -163,49 +163,6 @@ var polymorph = {
 		newp2.push(p2[0]);
 		temp.push([0, 0]);
 
-		//console.log(temp);
-
-
-
-		//console.log(a);
-/*
-		var queue = new Queue(function (obj) {
-			if ((obj.i1 > max1) || (obj.i2 > max2)) return false;
-			var d = distance(p1[obj.i1], p2[obj.i2]);
-			obj.d = d;
-			if (obj.parent) {
-				d += obj.parent.sum;
-			}
-			obj.sum = d;
-			obj.id = obj.i1+'_'+obj.i2;
-			return true;
-		});
-
-		queue.add({i1:0, i2:0, parent:false});
-
-		var found = false;
-		do {
-			var element = queue.pop();
-			if ((element.i1 == max1) && (element.i2 == max2)) {
-				found = element;
-			} else {
-				queue.add({i1:element.i1+1, i2:element.i2  , parent:element});
-				queue.add({i1:element.i1+1, i2:element.i2+1, parent:element});
-				queue.add({i1:element.i1  , i2:element.i2+1, parent:element});
-			}
-
-		} while (!found);
-
-		var newp1 = [], newp2 = [];
-		var temp = [];
-		while (found) {
-			newp1.push(p1[found.i1]);
-			newp2.push(p2[found.i2]);
-			temp.push([found.i1, found.i2]);
-			found = found.parent;
-		}
-		console.log(temp);
-*/
 
 		return {p1:newp1, p2:newp2};
 	},
@@ -262,40 +219,4 @@ function distance(point1, point2) {
 	var dx = point1[0] - point2[0];
 	var dy = point1[1] - point2[1];
 	return dx*dx + dy*dy;
-}
-
-var Queue = function (checker) {
-	var me = this;
-	var queue = [];
-	var list = {};
-
-	me.add = function (obj) {
-		if (checker(obj)) {
-			var id = obj.id;
-			if (list[id]) {
-				var dup = list[id];
-				if (dup.sum > obj.sum) {
-					// neues Element ist besser
-					for (var key in obj) dup[key] = obj[key];
-				}
-			} else {
-				queue.push(obj);
-				list[id] = obj;
-			}
-		}
-	}
-
-	var n = 0;
-	me.pop = function () {
-		queue = queue.sort(function (a,b) {
-			return b.sum - a.sum;
-		});
-		n++;
-		if (n % 1000 == 0) {
-			console.log(n, queue.length);
-		}
-		return queue.pop();
-	}
-
-	return me;
 }
