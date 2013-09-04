@@ -90,12 +90,52 @@ var polymorph = {
 			p2: p2.slice(best2).concat(p2.slice(0, best2))
 		}
 	},
+
+	reduce: function(p) {
+		var cy = 0.01;
+		var cx = cy*Math.cos(p[0][1]*3.14156/180);
+
+		var indexes = [];
+		for (var i = 0; i < p.length; i++) {
+			var xi = Math.round(p[i][0]/cx);
+			var yi = Math.round(p[i][1]/cy);
+			indexes[i] = xi+'_'+yi;
+		}
+
+		var sx = 0;
+		var sy = 0;
+		var n = 0;
+		var lastIndex = '_';
+		var np = [];
+		for (var i = 0; i < p.length; i++) {
+			if (indexes[i] != lastIndex) {
+				if (n > 0) {
+					np.push([sx/n, sy/n]);
+					sx = 0;
+					sy = 0;
+					n = 0;
+				}
+				lastIndex = indexes[i];
+			}
+			sx += p[i][0];
+			sy += p[i][1];
+			n ++;
+		}
+
+		np.push([sx/n, sy/n]);
+
+		console.log(p.length, np.length);
+
+		return np;
+	},
+
+
 	/* double up array elements to average out array lengths */
 	resample: function(p1, p2) {
 
 		var temp = polymorph.rotate(p1, p2);
-		p1 = temp.p1;
-		p2 = temp.p2;
+		p1 = polymorph.reduce(temp.p1);
+		p2 = polymorph.reduce(temp.p2);
 
 		var max1 = p1.length-1;
 		var max2 = p2.length-1;
