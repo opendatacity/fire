@@ -68,7 +68,7 @@ $(document).ready(function(){
 	/* precalculate total number of steps */
 	var total_steps = 0;
 	for (var i = 1; i < keys.length; i++) {
-		total_steps += Math.round(Math.round((keys[i] - keys[(i-1)]) / 30)/50)
+		total_steps += Math.round(Math.round((keys[i] - keys[(i-1)]) / 30)/50) + 1
 	}
 	var done_steps = 0;
 	
@@ -103,8 +103,7 @@ $(document).ready(function(){
 			}
 
 			/* update throbber */
-//			$('#map-throbber-bar').css('width', Math.round((((step*morph_steps)+this_step)/((keys.length-1)*morph_steps))*1000)/10+'%');
-			$('#map-throbber-bar').css('width', (Math.round((done_steps / total_steps)*10000)/100)+'%');
+			$('#map-throbber-bar').css('width', (100 * done_steps / total_steps).toFixed(2)+'%');
 			
 			var t = Math.round(polymorph.linterpol(0, keys[step], morph_steps, keys[(step+1)], this_step));
 			var sz = Math.round(polymorph.linterpol(0, (_rimfire[keys[step]].size*100), morph_steps, (_rimfire[keys[(step+1)]].size*100), this_step));
