@@ -269,8 +269,13 @@ $(document).ready(function(){
 
 var polymorph = {
 	/* linear interpolation */
-	linterpol: function(p1,p2,a) {
+	betterInterpol: function(p1,p2,a) {
 		return a*p2 + (1-a)*p1;
+	},
+	/* linear interpolation */
+	linterpol: function(ak,av,bk,bv,xk) {
+		var xr = (bk-xk)/(bk-ak);
+		return xr*av+(1-xr)*bv;
 	},
 	cleanUp: function (p) {
 		for (var i = 0; i < p.length; i++) {
@@ -441,8 +446,8 @@ var polymorph = {
 			pi = [];
 			for (var j=0; j < p1.length; j++) {
 				pi.push([
-					polymorph.linterpol(p1[j][0], p2[j][0], a),
-					polymorph.linterpol(p1[j][1], p2[j][1], a)
+					polymorph.betterInterpol(p1[j][0], p2[j][0], a),
+					polymorph.betterInterpol(p1[j][1], p2[j][1], a)
 				]);
 			} 
 			animation.push(pi);
