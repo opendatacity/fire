@@ -65,6 +65,12 @@ var polymorph = {
 	linterpol: function(p1,p2,a) {
 		return a*p2 + (1-a)*p1;
 	},
+	cleanUp: function (p) {
+		for (var i = 0; i < p.length; i++) {
+			p[i][0] = parseFloat(p[i][0]);
+			p[i][1] = parseFloat(p[i][1]);
+		}
+	},
 	rotate: function(p1, p2) {
 		var best1, best2, error = 1e10;
 		for (var i1 = 0; i1 < p1.length; i1++) {
@@ -170,7 +176,11 @@ var polymorph = {
 	steps: function(p1, p2, steps) {
 
 		var animation = [];
-		
+
+		polymorph.cleanUp(p1);
+		polymorph.cleanUp(p2);
+
+
 		/* check for polygon sizes and resample if nessecary */
 		var temp = polymorph.resample(p1, p2);
 		p1 = temp.p1;
