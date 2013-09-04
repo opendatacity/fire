@@ -83,7 +83,7 @@ $(document).ready(function(){
 				opacity: 0.1,
 				weight: 1,
 				fill: true,
-				fillColor: '#FFEE00',
+				fillColor: '#221100',
 				fillOpacity: 0.1*Math.exp(-0.1*step)
 			});
 
