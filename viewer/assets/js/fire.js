@@ -28,17 +28,19 @@ $(document).ready(function(){
 	keys = keys.sort();
 	
 	var viewpoly = new L.Polygon(polys[keys[0]], {
-		stroke: true,
-		color: '#f00',
+		stroke: false,
+		color: '#CC1313',
 		opacity: 0.5,
 		weight: 3,
 		fill: true,
-		fillColor: '#f00',
-		fillOpacity: 0.4
+		fillColor: '#BE1313',
+		fillOpacity: 0.8
 	});
 
 	map.addLayer(viewpoly);
-	
+
+	var histpolyList = [];
+
 	/* set inital time */
 	$('#map-date').text(moment.unix(parseInt(keys[0],10)).format('DD.MM.YYYY HH:mm')+' PST');
 
@@ -61,6 +63,19 @@ $(document).ready(function(){
 		
 		morph_duration = Math.round((keys[(step+1)] - keys[step]) / 30)
 		morph_steps = Math.round(morph_duration/50);
+
+		var histpoly = new L.Polygon(polys[keys[step]], {
+				stroke: false,
+				color: '#CC1313',
+				opacity: 0.5,
+				weight: 3,
+				fill: true,
+				fillColor: '#000',
+				fillOpacity: 0.08
+			});
+
+		map.addLayer(histpoly);
+		histpolyList.push(histpoly);
 
 		// console.log("duration", morph_duration, morph_steps);
 		
@@ -89,7 +104,7 @@ $(document).ready(function(){
 			
 			
 			/* glim effect */
-			var col = (this_step%2===0)?"#f00":"#f10";
+			var col = (this_step%2===0)?"#BB1313":"#BE1313";
 			
 			viewpoly.setStyle({
 				color: col,
@@ -101,6 +116,7 @@ $(document).ready(function(){
 				ll.push(new L.LatLng(p[0],p[1]));
 			});
 			viewpoly.setLatLngs(ll);
+
 			if (end && ((step+2) < keys.length)) {
 				morph((step+1), done_steps);
 			} else if (end) {
@@ -116,6 +132,14 @@ $(document).ready(function(){
 		if ($('#map-startstop').hasClass('playing')) return; // prevent double start
 		$('#map-container').addClass('playing');
 		morph(0, 0);
+		removeHistpolys();
+	}
+
+	var removeHistpolys = function() {
+		$(histpolyList).each(function(idx,histpoly){
+			map.removeLayer(histpoly);
+		});
+		histpolyList.length = 0;
 	}
 	
 	$('#map-startstop').click(function(evt){
@@ -185,18 +209,18 @@ $(document).ready(function(){
 					style: function(f){
 						return {
 							stroke: true,
-							color: '#000',
+							color: '#FFF',
 							opacity: 1,
 							weight: 2,
 							fill: true,
-							fillColor: '#333',
-							fillOpacity: 0.9
+							fillColor: '#FFF',
+							fillOpacity: 0.3
 						}
 					}
 				}).addTo(map).on('click', function(e){
 					map.removeLayer(comparecity);
 				}).bringToFront();
-				viewpoly.bringToFront()
+				//viewpoly.bringToFront()
 			});
 		}
 	}
