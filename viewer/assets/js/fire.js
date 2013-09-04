@@ -70,8 +70,8 @@ $(document).ready(function(){
 				opacity: 0.1,
 				weight: 1,
 				fill: true,
-				fillColor: '#FFFF00',
-				fillOpacity: 0.3/(step+1)
+				fillColor: '#FFEE00',
+				fillOpacity: 0.1*Math.exp(-0.1*step)
 			});
 
 		map.addLayer(histpoly);
