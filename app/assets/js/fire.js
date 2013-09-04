@@ -78,13 +78,13 @@ $(document).ready(function(){
 		morph_steps = Math.round(morph_duration/50);
 
 		var histpoly = new L.Polygon(polys[keys[step]], {
-				stroke: false,
-				color: '#CC1313',
+				stroke: true,
+				color: '#330000',
 				opacity: 0.5,
-				weight: 3,
+				weight: 0.3,
 				fill: true,
-				fillColor: '#000',
-				fillOpacity: 0.08
+				fillColor: '#ffee00',
+				fillOpacity: 0.05
 			});
 
 		map.addLayer(histpoly);
