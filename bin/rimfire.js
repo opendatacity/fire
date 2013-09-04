@@ -17,7 +17,7 @@ var scraper = new scrapyard({
 });
 
 var FILE_RIMFIRE = path.resolve(__dirname, '../data/rimfire.json');
-var FILE_REDUCED = path.resolve(__dirname, '../viewer/assets/data/rimfire.js');
+var FILE_REDUCED = path.resolve(__dirname, '../app/assets/data/rimfire.js');
 var URL_RIMFIRE = "http://rmgsc.cr.usgs.gov/outgoing/GeoMAC/current_year_fire_data/KMLS/";
 
 if (fs.existsSync(FILE_RIMFIRE)) {
