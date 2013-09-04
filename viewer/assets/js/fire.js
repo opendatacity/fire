@@ -10,7 +10,7 @@ $(document).ready(function(){
 	});
 
 	var tiles = new L.TileLayer('http://tilt.odcdn.de/terrain/{z}/{x}/{y}.jpg', {
-		attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Map Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>. Fire Data by <a href="http://inciweb.nwcg.gov/">InciWeb</a>',
+		attribution: 'Made with datalove by <a href="http://www.opendatacity.de/">OpenDataCity</a>. Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Map Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>. Fire Data by <a href="http://inciweb.nwcg.gov/">InciWeb</a>',
 		maxZoom: 18
 	});
 	
