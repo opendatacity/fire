@@ -40,7 +40,7 @@ $(document).ready(function(){
 		viewpoly.redraw();
 	}
 
-	var index = 1;
+	var index = 0;
 
 	function nextPhase() {
 		if (index <= 6) {
@@ -48,7 +48,7 @@ $(document).ready(function(){
 			polymorph.run(
 				example_data[keys[index]],
 				example_data[keys[index+1]],
-				duration/20,
+				duration/30,
 				callback,
 				nextPhase
 			);
