@@ -1,0 +1,7 @@
+node move "../data/berlin.geojson" "../viewer/assets/data/berlin.geo.json"
+node move "../data/hamburg.geojson" "../viewer/assets/data/hamburg.geo.json"
+node move "../data/koeln.geojson" "../viewer/assets/data/koeln.geo.json"
+node move "../data/london.geojson" "../viewer/assets/data/london.geo.json"
+node move "../data/manhattan.geojson" "../viewer/assets/data/manhattan.geo.json"
+node move "../data/muenchen.geojson" "../viewer/assets/data/muenchen.geo.json"
+node move "../data/paris.geojson" "../viewer/assets/data/paris.geo.json"
