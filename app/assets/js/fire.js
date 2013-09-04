@@ -1,5 +1,18 @@
 $(document).ready(function(){
 	
+	var lang = ($('html').hasClass('site-de')) ? 'de' : 'en';
+	
+	switch (lang) {
+		case 'de': 
+			var date_format = 'DD.MM.YYYY HH:mm';
+			var to_size = function(size) { return size.toString().replace(/\./g,',')+' km²' };
+		break;
+		case 'en': 
+			var date_format = 'MM/DD/YYYY HH:mm';
+			var to_size = function(size) { return Math.round(size * 247.105381).toString().replace(/\./g,',')+' ac.' };
+		break;
+	}
+	
 	var map = new L.Map('map', {
 		minZoom: 6,
 		maxZoom: 12,
@@ -42,10 +55,10 @@ $(document).ready(function(){
 	var histpolyList = [];
 
 	/* set inital time */
-	$('#map-date').text(moment.unix(parseInt(keys[0],10)).format('DD.MM.YYYY HH:mm')+' PST');
+	$('#map-date').text(moment.unix(parseInt(keys[0],10)).format(date_format)+' PST');
 
 	/* set inital size */
-	$('#map-size').text((Math.round(_rimfire[keys[0]].size*100)/100).toString().replace(/\./g,',')+' km²');
+	$('#map-size').text(to_size(Math.round(_rimfire[keys[0]].size*100)/100));
 	
 	var morph_steps = 50;
 	var morph_duration = 2500;
@@ -95,12 +108,12 @@ $(document).ready(function(){
 			var sz = Math.round(polymorph.linterpol(0, (_rimfire[keys[step]].size*100), morph_steps, (_rimfire[keys[(step+1)]].size*100), this_step));
 			
 			/* update date */
-			$('#map-date').text(moment.unix(t).format('DD.MM.YYYY HH:mm')+' PST');
+			$('#map-date').text(moment.unix(t).format(date_format)+' PST');
 
 			/* update size */
 			var szr = (Math.round(sz)/100).toString();
 			if (szr.match(/\.[0-9]$/)) szr += "0";
-			$('#map-size').text(szr.replace(/\./g,',')+' km²');
+			$('#map-size').text(to_size(szr));
 			
 			
 			/* glim effect */
