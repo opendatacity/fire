@@ -27,9 +27,14 @@ var get_center = function(pg){
 var from_center = null;
 
 var move_shape = function(coords) {
-	var shift = [(from_center[0]-to_center[0]),(from_center[1]-to_center[1])];
+	var xScale = Math.cos(from_center[1]*3.14159/180)/Math.cos(to_center[1]*3.14159/180);
+	var dy = from_center[1]-to_center[1];
+	
 	coords.forEach(function(v,k){
-		coords[k] = [(v[0]-shift[0]),(v[1]-shift[1])]
+		coords[k] = [
+			(v[0]-from_center[0])*xScale+to_center[0],
+			v[1]-dy
+		]
 	});
 	return coords;
 }
