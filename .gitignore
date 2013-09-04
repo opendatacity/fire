@@ -1,2 +1,5 @@
+
 cache
 tmp
+bin/node_modules/*
+
