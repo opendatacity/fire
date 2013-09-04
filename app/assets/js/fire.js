@@ -40,7 +40,7 @@ $(document).ready(function(){
 	}
 	keys = keys.sort();
 	
-	var viewpoly = new L.Polygon(polys[keys[0]], {
+	var viewpolyStyle = {
 		stroke: false,
 		color: '#CC1313',
 		opacity: 0.5,
@@ -48,7 +48,9 @@ $(document).ready(function(){
 		fill: true,
 		fillColor: '#BE1313',
 		fillOpacity: 0.8
-	});
+	};
+
+	var viewpoly = new L.Polygon(polys[keys[0]], viewpolyStyle);
 
 	map.addLayer(viewpoly);
 
@@ -115,15 +117,7 @@ $(document).ready(function(){
 			if (szr.match(/\.[0-9]$/)) szr += "0";
 			$('#map-size').text(to_size(parseFloat(szr)));
 			
-			
-			/* glim effect */
-			//var col = (this_step%2===0)?"#BB1313":"#BE1313";
-			col = '#BB1313';
-			
-			viewpoly.setStyle({
-				color: col,
-				fillColor: col
-			});
+			viewpoly.setStyle(viewpolyStyle);
 			
 			var ll = [];
 			$(pp).each(function(idx,p){
