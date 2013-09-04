@@ -204,7 +204,7 @@ $(document).ready(function(){
 	
 	/* compare */
 
-	var comparisons = ["berlin","koeln","muenchen","manhattan","london","paris","hamburg"];
+	var comparisons = ["berlin","koeln","muenchen","manhattan","london","paris","hamburg","sacramento"];
 	var comparecity_current = null;
 	var comparecity = null;
 
