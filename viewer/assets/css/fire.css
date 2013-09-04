@@ -156,8 +156,8 @@ header {
 		#map-startstop:hover {
 		
 			text-decoration: none;
-			background-color: #f33;
-			background-image: linear-gradient(to bottom, #f33 0px, #c00 100%);
+			background-color: #BE1313;
+			background-image: linear-gradient(to bottom, #BE1313 0px, #c00 100%);
 			background-repeat: repeat-x;
 			
 		}
@@ -245,7 +245,7 @@ header {
 					#map-compare ul li a.highlight:hover {
 					
 						text-decoration: none;
-						background-color: #f33;
+						background-color: #BE1313;
 					
 					}
 				

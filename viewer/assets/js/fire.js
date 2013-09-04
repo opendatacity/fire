@@ -39,6 +39,8 @@ $(document).ready(function(){
 
 	map.addLayer(viewpoly);
 
+	var histpolyList = [];
+
 	/* set inital time */
 	$('#map-date').text(moment.unix(parseInt(keys[0],10)).format('DD.MM.YYYY HH:mm')+' PST');
 
@@ -62,9 +64,18 @@ $(document).ready(function(){
 		morph_duration = Math.round((keys[(step+1)] - keys[step]) / 30)
 		morph_steps = Math.round(morph_duration/50);
 
-		$(viewpoly._path).clone().appendTo(viewpoly._container)
-			.attr('opacity','0.1')
-			.attr('fill','#000')
+		var histpoly = new L.Polygon(polys[keys[step]], {
+				stroke: false,
+				color: '#CC1313',
+				opacity: 0.5,
+				weight: 3,
+				fill: true,
+				fillColor: '#000',
+				fillOpacity: 0.08
+			});
+
+		map.addLayer(histpoly);
+		histpolyList.push(histpoly);
 
 		// console.log("duration", morph_duration, morph_steps);
 		
@@ -121,6 +132,14 @@ $(document).ready(function(){
 		if ($('#map-startstop').hasClass('playing')) return; // prevent double start
 		$('#map-container').addClass('playing');
 		morph(0, 0);
+		removeHistpolys();
+	}
+
+	var removeHistpolys = function() {
+		$(histpolyList).each(function(idx,histpoly){
+			map.removeLayer(histpoly);
+		});
+		histpolyList.length = 0;
 	}
 	
 	$('#map-startstop').click(function(evt){
@@ -190,18 +209,18 @@ $(document).ready(function(){
 					style: function(f){
 						return {
 							stroke: true,
-							color: '#000',
+							color: '#FFF',
 							opacity: 1,
 							weight: 2,
 							fill: true,
-							fillColor: '#333',
-							fillOpacity: 0.9
+							fillColor: '#FFF',
+							fillOpacity: 0.3
 						}
 					}
 				}).addTo(map).on('click', function(e){
 					map.removeLayer(comparecity);
 				}).bringToFront();
-				viewpoly.bringToFront()
+				//viewpoly.bringToFront()
 			});
 		}
 	}
