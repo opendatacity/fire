@@ -66,12 +66,12 @@ $(document).ready(function(){
 
 		var histpoly = new L.Polygon(polys[keys[step]], {
 				stroke: false,
-				color: '#CC1313',
-				opacity: 0.5,
-				weight: 3,
+				color: '#000',
+				opacity: 0.1,
+				weight: 1,
 				fill: true,
-				fillColor: '#000',
-				fillOpacity: 0.08
+				fillColor: '#FFFF00',
+				fillOpacity: 0.3/(step+1)
 			});
 
 		map.addLayer(histpoly);
@@ -104,7 +104,8 @@ $(document).ready(function(){
 			
 			
 			/* glim effect */
-			var col = (this_step%2===0)?"#BB1313":"#BE1313";
+			//var col = (this_step%2===0)?"#BB1313":"#BE1313";
+			col = '#BB1313';
 			
 			viewpoly.setStyle({
 				color: col,
@@ -316,8 +317,6 @@ var polymorph = {
 		}
 
 		np.push([sx/n, sy/n]);
-
-		console.log(p.length, np.length);
 
 		return np;
 	},
