@@ -497,12 +497,18 @@ header {
 		bottom: 0px;
 		background-color: #fff;
 		z-index: 1500;
-		padding: 10%;
+		padding: 5% 10% 10% 10%;
+		overflow-x: auto;
 		
 	}
 				
-		.show-info #info { display: block; }
-		.show-share #share { display: block; }
+		.show-info #info, .show-share #share {
+			display: block;
+		}
+
+		.show-info, .show-share {
+			z-index: 1000;
+		}
 
 		.overlay code {
 			
