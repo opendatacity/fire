@@ -363,7 +363,7 @@ var polymorph = {
 					}
 				}
 
-				d = Math.sqrt(distance(p1[i1], p2[i2])) + 1e-6;
+				d = Math.pow(distance(p1[i1], p2[i2]), 0.1) + 1e-6;
 
 				a[i1][i2] = minSum + d;
 			}
