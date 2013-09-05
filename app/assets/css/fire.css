@@ -51,6 +51,10 @@ header {
 	
 		#nav ul.icons > li {}
 
+		 	.in-frame #switch-language {
+		 		display: none;
+		 	}
+
 			#nav ul.icons > li+li {
 				
 				margin-top: 5px;
@@ -684,6 +688,7 @@ a {
 	
 }
 
+
 @media screen and (min-width: 721px) and (max-height: 500px) { 
 
 	#map-compare {
@@ -712,6 +717,14 @@ a {
 		right: 40px;
 		
 	}
+
+	#map-share {
+
+		top: auto;
+		bottom: 0px;
+		
+	}
+
 
 	#map-startstop {
 		
