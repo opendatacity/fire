@@ -337,9 +337,13 @@ var polymorph = {
 	/* double up array elements to average out array lengths */
 	resample: function(p1, p2) {
 
+		p1 = polymorph.reduce(p1);
+		p2 = polymorph.reduce(p2);
+
 		var temp = polymorph.rotate(p1, p2);
-		p1 = polymorph.reduce(temp.p1);
-		p2 = polymorph.reduce(temp.p2);
+
+		p1 = temp.p1;
+		p2 = temp.p2;
 
 		var max1 = p1.length-1;
 		var max2 = p2.length-1;
@@ -364,7 +368,7 @@ var polymorph = {
 					}
 				}
 
-				d = Math.pow(distance(p1[i1], p2[i2]), 0.1) + 1e-6;
+				d = Math.pow(distance(p1[i1], p2[i2]), 0.3) + 1e-6;
 
 				a[i1][i2] = minSum + d;
 			}
