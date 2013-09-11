@@ -62,13 +62,14 @@ $(document).ready(function(){
 	/* set inital size */
 	$('#map-size').text(to_size(parseFloat(_rimfire[keys[0]].size)));
 	
-	var morph_steps = 50;
+	var morph_steps;
+	var morph_speed = 60;
 	var morph_duration = 2500;
 
 	/* precalculate total number of steps */
 	var total_steps = 0;
 	for (var i = 1; i < keys.length; i++) {
-		total_steps += Math.round(Math.round((keys[i] - keys[(i-1)]) / 30)/50) + 1
+		total_steps += Math.round(Math.round((keys[i] - keys[(i-1)]) / morph_speed)/50) + 1
 	}
 	var done_steps = 0;
 	
@@ -76,7 +77,7 @@ $(document).ready(function(){
 
 		var this_step = 0;
 		
-		morph_duration = Math.round((keys[(step+1)] - keys[step]) / 30)
+		morph_duration = Math.round((keys[(step+1)] - keys[step]) / morph_speed)
 		morph_steps = Math.round(morph_duration/50);
 
 		var histpoly = new L.Polygon(polys[keys[step]], {
