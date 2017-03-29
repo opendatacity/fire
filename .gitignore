@@ -2,6 +2,7 @@
 cache
 tmp
 bin/node_modules/*
+.idea
 data/rimfire.json
 app/assets/data/rimfire.js
 
